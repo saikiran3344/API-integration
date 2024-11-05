@@ -1,0 +1,16 @@
+# views.py
+import requests
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(["GET"])
+def get_customer_data(request):
+    headers = {
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+    }
+    response = requests.get("https://api.thirdpartycrm.com/customers", headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        return Response(data)
+    else:
+        return Response({"error": "Failed to retrieve data"}, status=500)
